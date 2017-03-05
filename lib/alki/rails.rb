@@ -7,7 +7,7 @@ module Alki
         unless File.exist? ::Rails.root.join('config','assembly.rb').to_s
           raise "Alki::Rails requires a config/assembly.rb file to exist!!"
         end
-        Alki.create_assembly config_dir: ::Rails.root.join('config').to_s, name: 'alki_rails_assembly'
+        Alki.create_assembly(config_dir: ::Rails.root.join('config').to_s, name: 'alki_rails_assembly')
       end
 
       def self.alki_module
@@ -19,6 +19,10 @@ module Alki
           mount :reloader, 'alki/reload' do
             set(:root_dir) { ::Rails.root }
             set(:enable) { !::Rails.application.config.cache_classes }
+          end
+        end.tap do |instance|
+          ActiveSupport::Reloader.after_class_unload do
+            instance.reloader.reload
           end
         end
       end
