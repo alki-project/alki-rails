@@ -16,14 +16,14 @@ your core code encapsulated.
 === What about Rails Services?
 
 Recent versions of Rails have added an `app/services` directory as a place to put
-dedicated service objects containing your business logic.
+dedicated service classes containing your business logic.
 
 The key difference between these Rails services and Alki services is that Rails services are
-classes or modules, referenced directly by consumers when needed, while Alki services can be
-any time of object, but are typically instances of a service class.
+classes or modules,
+while Alki services can be any type of object.
 
-By using instances, Alki allows services to be configured and dependency injected before
-being used.
+By using objects, Alki allows services to be configured and dependency injected before
+being used, allowing classes to be simpler, more focused, and easily tested.
 
 == Installation
 
@@ -55,7 +55,7 @@ Elements like services and application settings are defined in your Assembly def
 (`config/assembly.rb`). These elements are accessible by name directly within controllers
 and the rails console.
 
-See https://github.com/alki-project/alki[here] for more documentation on how to use Alki.
+See http://alki.io[alki.io] for more documentation on how to use Alki.
 
 .config/assembly.rb
 ```ruby
@@ -82,6 +82,7 @@ end
 ```ruby
 class OrdersController < ApplicationController
   def post
+    # Can reference Assembly elements directly in controllers
     @order = orders.manager.place_order params[:order]
   end
 end
@@ -106,7 +107,8 @@ class StripeProcessor
 end
 ```
 
-Elements can also be accessed anywhere in your Rails application, via `Alki::Rails`:
+Elements can also be accessed directly in the rails console,
+or anywhere in your Rails application, via `Alki::Rails`:
 
 .config/assembly.rb
 ```ruby
@@ -125,8 +127,14 @@ end
  => 'Hello World'
 ```
 
-Alki will automatically add your projects `lib` directory to the ruby load path, so you can require files from there directly. It also will handle auto-reloading files in lib.
+=== Code Reloading
 
+Alki::Rails automatically will set up http://alki.io/projects/alki-reload[Alki::Reload] and enable it whenever
+Rails itself has code reloading enabled. It will handle reloading all Alki configuration files and files in `lib/`.
+
+Generally the Rails and Alki code reloading systems should work together without any issues.
+One place however where they do work differently is in the console.
+Alki does not require the `reload!` method to be called and will automatically reload code as soon as it changes.
 
 == Contributing
 

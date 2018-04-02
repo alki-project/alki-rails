@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["matt.edlefsen@gmail.com"]
 
   spec.summary       = %q{Rails integration for Alki}
-  spec.homepage      = "https://github.com/alki-project/alki-rails"
+  spec.homepage      = "http://alki.io/projects/alki-rails"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
@@ -20,8 +20,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_dependency "alki", "~> 0.11"
-  spec.add_dependency "alki-reload", "~> 0.3"
+  spec.add_dependency "alki", "~> 0.14"
+  spec.add_dependency "alki-reload", "~> 0.3", ">= 0.3.4"
 end
